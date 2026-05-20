@@ -32,3 +32,17 @@ pub trait Handler {
 pub trait Trigger {
     fn check(&self, msg: &str, value: i64);
 }
+
+// Допиши это в конец существующего файла src/datatypes.rs
+
+pub trait Sender<const N: usize> {
+    // Отправляет Pack<N> по выбранному каналу
+    fn send(&mut self, pack: &Pack<N>) -> Result<(), &'static str>;
+}
+
+pub trait Receiver<const N: usize> {
+    // Слушает сокет/порт и собирает данные прямо в Pack<N> на стеке
+    // Возвращает Some(Pack<N>) когда данные пришли, или None если таймаут/ошибка
+    fn receive(&mut self) -> Option<Pack<N>>;
+}
+
